@@ -64,14 +64,14 @@ module.exports = function graphQLPersistedDocumentLoader(content) {
     } catch (e) {
       callback(e);
     }
-
+  
     callback(null, content);
   }).catch((err) => {
     console.log('error', err);
     callback(err);
   });
-};
-
+}
+  
 function tryAddDocumentId(options, content, querySource) {
   const queryMap = new ExtractGQL({
     queryTransformers: options.queryTransformers || [options.addTypename && queryTransformers.addTypenameTransformer].filter(Boolean)
