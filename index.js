@@ -72,42 +72,41 @@ module.exports = {
       console.log('error', err);
       callback(err);
     });
-  };
-  
-  function tryAddDocumentId(options, content, querySource) {
-    const queryMap = new ExtractGQL({
-      queryTransformers: options.queryTransformers || [options.addTypename && queryTransformers.addTypenameTransformer].filter(Boolean)
-    }).createOutputMapFromString(querySource);
-  
-    const queries = Object.keys(queryMap);
-    if (queries.length > 1) {
-      queries
-        .map(query => {
-          const matched = query.match(/^(mutation|query)\ ([^\ \(\{]*)/)
-          if (!matched) {
-            return false
-          }
-          return {
-            operationName: matched[2],
-            id: generateIdForQuery(options, query)
-          }
-        })
-        .filter(isValid => !!isValid)
-        .forEach(({ id, operationName }) => {
-          content += `${os.EOL}module.exports["${operationName}"].documentId = ${JSON.stringify(id)};`
-        })
-    } else if (queries.length === 1) {
-      const queryId = generateIdForQuery(options, Object.keys(queryMap)[0]);
-      content += `${os.EOL}doc.documentId = ${JSON.stringify(queryId)}`;
-    }
-  
-    return content;
-  }
+  },
 };
   
+function tryAddDocumentId(options, content, querySource) {
+  const queryMap = new ExtractGQL({
+    queryTransformers: options.queryTransformers || [options.addTypename && queryTransformers.addTypenameTransformer].filter(Boolean)
+  }).createOutputMapFromString(querySource);
+
+  const queries = Object.keys(queryMap);
+  if (queries.length > 1) {
+    queries
+      .map(query => {
+        const matched = query.match(/^(mutation|query)\ ([^\ \(\{]*)/)
+        if (!matched) {
+          return false
+        }
+        return {
+          operationName: matched[2],
+          id: generateIdForQuery(options, query)
+        }
+      })
+      .filter(isValid => !!isValid)
+      .forEach(({ id, operationName }) => {
+        content += `${os.EOL}module.exports["${operationName}"].documentId = ${JSON.stringify(id)};`
+      })
+  } else if (queries.length === 1) {
+    const queryId = generateIdForQuery(options, Object.keys(queryMap)[0]);
+    content += `${os.EOL}doc.documentId = ${JSON.stringify(queryId)}`;
+  }
+
+  return content;
+}
+
 function generateIdForQuery(options, query) {
   if (options.generateId) return options.generateId(query);
 
   return require('crypto').createHash('sha256').update(query).digest('hex');
 }
-  
