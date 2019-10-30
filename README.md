@@ -4,7 +4,7 @@ Webpack loader that assigns a documentId to a compiled GraphQL document's AST.
 
 ## Why
 
-When dealing with persisted documents in GraphQL, tools like [PersistGraphQL](https://github.com/apollographql/persistgraphql) generate a map from query to id that helps you determine the id for a given document and send that to the server instead of the full query string. This is useful to optimize the payload sent to the server, and also to allow the server to not parse and validate those queries, and also to optimize them particularly since the server now knows which queries the client will send.
+When dealing with persisted documents in GraphQL, tools like [PersistGraphQL](https://github.com/apollographql/persistgraphql-audit) generate a map from query to id that helps you determine the id for a given document and send that to the server instead of the full query string. This is useful to optimize the payload sent to the server, and also to allow the server to not parse and validate those queries, and also to optimize them particularly since the server now knows which queries the client will send.
 
 However, on the client we still need to load up this map of queries to ids, which may become too big to load in one shot if your app has quite some queries. Moreover, if you are using code splitting, you'll be loading a file that includes queries for sections of your app that may never be executed or loaded.
 
