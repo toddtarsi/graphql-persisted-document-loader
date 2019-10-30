@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "loader-utils": "^1.1.0",
-    "persistgraphql": "git://github.com/toddtarsi/persistgraphql.git#f69e32cde4903337294d58d03e6d86bfb1570ed3"
+    "persistgraphql": "git://github.com/toddtarsi/persistgraphql.git#64e90dd19fd165c2a89dcdd9cbb6d0b36dc2560f"
   },
   "peerDependencies": {
     "graphql-tag": "^2.8.0"
