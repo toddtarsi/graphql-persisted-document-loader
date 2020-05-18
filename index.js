@@ -1,8 +1,8 @@
 const vm = require('vm');
 const os = require('os');
 const loaderUtils = require('loader-utils');
-const { ExtractGQL } = require('persistgraphql-audit/lib/src/ExtractGQL');
-const queryTransformers = require('persistgraphql-audit/lib/src/queryTransformers');
+const { ExtractGQL } = require('persistgraphql/lib/src/ExtractGQL');
+const queryTransformers = require('persistgraphql/lib/src/queryTransformers');
 
 module.exports = function graphQLPersistedDocumentLoader(content) {
   const deps = [];
